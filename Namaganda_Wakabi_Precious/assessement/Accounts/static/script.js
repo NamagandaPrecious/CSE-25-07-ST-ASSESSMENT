@@ -1,5 +1,5 @@
 // --- SIGNUP VALIDATION ---
-// --- SIGNUP VALIDATION ---
+
 const signupForm = document.getElementById('signupForm');
 if (signupForm) {
   signupForm.addEventListener('submit', function (e) {

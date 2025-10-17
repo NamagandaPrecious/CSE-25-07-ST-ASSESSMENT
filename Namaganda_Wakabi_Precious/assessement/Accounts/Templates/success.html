@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<script src="{% static 'script.js' %}" defer></script>
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="success-box">
+    <h2>CONGRATULATIONS!</h2>
+    <p>You have successfully signed into the ReFactory system. Feel at home.</p>
+</div>
+{% endblock %}

@@ -3,15 +3,25 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+
 def signup_view(request):
+    message = None
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = User.objects.create_user(username=username, password=password)
-        user.save()
-        messages.success(request, 'Account created successfully!')
-        return redirect('login')
-    return render(request, 'signup.html')
+        fullname = request.POST.get('fullname')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        password = request.POST.get('password')
+        confirm = request.POST.get('confirm')
+
+        if password == confirm:
+            User.objects.create_user(username=email, email=email, password=password, first_name=fullname)
+            message = "Account created successfully!"
+        else:
+            message = "Passwords do not match!"
+
+    return render(request, 'signup.html', {'message': message})
 
 
 def login_view(request):

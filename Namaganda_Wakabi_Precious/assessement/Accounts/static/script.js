@@ -1,10 +1,13 @@
 // --- SIGNUP VALIDATION ---
+// --- SIGNUP VALIDATION ---
 const signupForm = document.getElementById('signupForm');
 if (signupForm) {
   signupForm.addEventListener('submit', function (e) {
-    let valid = true;
+    e.preventDefault(); // stop form refresh always
 
+    let valid = true;
     const fields = ['fullname', 'email', 'phone', 'password', 'confirm'];
+
     fields.forEach(id => {
       const input = document.getElementById(id);
       input.classList.remove('error', 'valid');
@@ -26,35 +29,32 @@ if (signupForm) {
     if (!emailPattern.test(email.value)) {
       email.classList.add('error');
       valid = false;
+    } else {
+      email.classList.add('valid');
     }
 
     if (!phonePattern.test(phone.value)) {
       phone.classList.add('error');
       valid = false;
+    } else {
+      phone.classList.add('valid');
     }
 
     // Password match
     const password = document.getElementById('password');
     const confirm = document.getElementById('confirm');
-    if (password.value !== confirm.value) {
+    if (password.value !== confirm.value || confirm.value.trim() === '') {
       confirm.classList.add('error');
       valid = false;
+    } else {
+      confirm.classList.add('valid');
     }
 
-    if (!valid) {
-      e.preventDefault();
-      return;
-    }
+    if (!valid) return;
 
-    // show success banner
-    e.preventDefault(); // keep user on signup page
+    // show success banner (stay on page)
     const banner = document.getElementById('successBanner');
     banner.classList.remove('hidden');
-
-    // After short delay, redirect to login page
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 2000);
   });
 
   // Close banner
@@ -64,21 +64,35 @@ if (signupForm) {
       document.getElementById('successBanner').classList.add('hidden');
     });
   }
+
+  // ✅ live validation on input change
+  const inputs = signupForm.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.addEventListener('input', () => {
+      if (input.value.trim() === '') {
+        input.classList.remove('valid');
+        input.classList.add('error');
+      } else {
+        input.classList.remove('error');
+        input.classList.add('valid');
+      }
+    });
+  });
 }
 
 // --- LOGIN VALIDATION ---
-const loginForm = document.querySelector('.auth-container form');
+const loginForm = document.querySelector(".auth-container form");
 if (loginForm) {
-  const inputs = loginForm.querySelectorAll('input');
-  loginForm.addEventListener('submit', function (e) {
+  const inputs = loginForm.querySelectorAll("input");
+  loginForm.addEventListener("submit", function (e) {
     let valid = true;
-    inputs.forEach(input => {
-      input.classList.remove('error', 'valid');
-      if (input.value.trim() === '') {
-        input.classList.add('error');
+    inputs.forEach((input) => {
+      input.classList.remove("error", "valid");
+      if (input.value.trim() === "") {
+        input.classList.add("error");
         valid = false;
       } else {
-        input.classList.add('valid');
+        input.classList.add("valid");
       }
     });
 

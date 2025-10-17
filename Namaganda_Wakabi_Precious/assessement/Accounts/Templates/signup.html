@@ -1,24 +1,36 @@
-{% extends 'base.html' %}
-{% block content %}
-{% load static %}
+{% extends 'base.html' %} {% block content %} {% load static %}
 
-<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'style.css' %}" />
 <script src="{% static 'script.js' %}" defer></script>
 <div class="auth-container">
   <h2>Sign Up</h2>
 
-  <div id="successBanner" class="success-banner hidden">
-    Account created successfully! - Login
+  {% if message %}
+  <div id="successBanner" class="success-banner">
+    🎉 {{ message }} {% if message == "Account created successfully!" %}
+    <a href="{% url 'login' %}" class="login-link">Go to Login</a>
+    {% endif %}
     <span id="closeBanner">&times;</span>
   </div>
+  {% endif %}
 
-  <form id="signupForm" method="post" >
+  <form id="signupForm" method="post">
     {% csrf_token %}
-    <input type="text" id="fullname" name="fullname" placeholder="Full name">
-    <input type="email" id="email" name="email" placeholder="Email">
-    <input type="text" id="phone" name="phone" placeholder="Phone number">
-    <input type="password" id="password" name="password" placeholder="Password">
-    <input type="password" id="confirm" name="confirm" placeholder="Confirm password">
+    <input type="text" id="fullname" name="fullname" placeholder="Full name" />
+    <input type="email" id="email" name="email" placeholder="Email" />
+    <input type="text" id="phone" name="phone" placeholder="Phone number" />
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Password"
+    />
+    <input
+      type="password"
+      id="confirm"
+      name="confirm"
+      placeholder="Confirm password"
+    />
     <button type="submit" class="btn">Sign Up</button>
     <p>Have an account? <a href="{% url 'login' %}">Login</a></p>
   </form>
